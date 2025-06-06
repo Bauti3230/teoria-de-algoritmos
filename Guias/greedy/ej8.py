@@ -1,14 +1,3 @@
-"""
-queremos maximizar la cantidad de invitados, pero para que un invitado 
-venga debe al menos connocer a 4 invitados. podemos decir que el arreglo de invitados
-tiene la siguente forma : 
-    [(nombre_invitado, [nombre_1,nombre_2,...,nombre_n]), ..., (...)]
-es decir se tiene al invitado y las lista de gente que conoce.
-"""
-
-"""
-all(len([c for c in conocidos_dict[inv] if c in solucion or c == invitado]) >= 4 for inv in solucion)):
-"""
 
 def aux(solucion,conocidos_dict,invitado):
     if len(solucion) < 4: return False
@@ -30,8 +19,9 @@ def maximizar_invitados(invitados):
     for invitado, conocidos in invitados:
 
         conocidos_solucion = len([c for c in conocidos if c in solucion])
+        no_conocidos_solucion = len([s for s in solucion if s not in conocidos])
 
-        if conocidos_solucion >= 4 or aux(solucion,conocidos_dict,invitado):
+        if (conocidos_solucion >= 4 and no_conocidos_solucion >= 4) or aux(solucion,conocidos_dict,invitado):
             solucion.append(invitado) 
     
     return solucion

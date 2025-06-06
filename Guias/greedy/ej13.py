@@ -1,9 +1,7 @@
 import networkx as nx
 
 def no_visitado(nodo,solucion):
-    for camino in solucion:
-        if camino in solucion : return False
-    return True 
+    return nodo not in solucion
 
 """
 queremos que un centro de distribucion de repuesto le lleve a cada estacion repuestos
@@ -15,29 +13,27 @@ def centro_de_dsitrubucion(grafo):
 
     nodos = list(grafo.nodes())
     index_cd = nodos.index('Centro')
-    solucion = []
 
     nodo_act = nodos[index_cd]
-    i = 0
-    
-    
-    aux = []
+    visitados = 0
+    solucion = []
 
-    for nodo_ady in sorted(grafo.adj[nodo_act], reverse=True):
-        solucion_actual = []
-        
-        if nodo_act == 'Centro' :
-            solucion_actual.append(nodo_act)
+    while (visitados < len(nodos)):
+        for nodo_ady in sorted(grafo.adj[nodo_act], reverse=True):
+            solucion_actual = []
+            
+            if nodo_act == 'Centro' :
+                solucion_actual.append(nodo_act)
+                visitados += 1
 
-        if no_visitado(nodo_ady,solucion) and nodo_ady not in solucion_actual:
-            solucion_actual.append(nodo_ady)
-            nodo_act = nodo_ady
-            aux += solucion_actual
-            continue
+            if no_visitado(nodo_ady,solucion) and nodo_ady not in solucion_actual:
+                solucion_actual.append(nodo_ady)
+                nodo_act = nodo_ady
+                solucion += solucion_actual
+                visitados += 1
+                break
 
-
-
-    return
+    return solucion
 
 if __name__ == "__main__":
     grafo = nx.Graph()
@@ -58,5 +54,5 @@ if __name__ == "__main__":
     for u, v, w in aristas:
         grafo.add_edge(u, v, weight=w)
 
-    centro_de_dsitrubucion(grafo)
+    print( centro_de_dsitrubucion(grafo))
     
