@@ -19,7 +19,8 @@ def solitario(cartas):
         if not agregado:
             mazos.append([c])  
     
-    return mazos
+    print(mazos)
+    return len(mazos)
 
 def main():
     with open(sys.argv[1], "r") as arch:
